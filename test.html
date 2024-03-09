@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Country Search</title>
+</head>
+<body>
+  <div class="search-row">
+    <div>
+      <img src="images/search.svg" alt="icon-search">
+      <input id="searchInput" type="text" placeholder="Search for a country...">
+    </div>
+    <div>
+      <select id="categorySelect">
+        <option value="">Select By Region</option>
+        <option value="Africa">Africa</option>
+        <option value="America">America</option>
+        <option value="Europe">Europe</option>
+        <option value="Oceania">Oceania</option>
+      </select>
+    </div>
+  </div>
+
+  <div id="cardContainer">
+    <!-- Your card items go here -->
+    <div class="card" data-region="Europe">
+      <img src="https://flagcdn.com/de.svg" alt="flag">
+      <div class="card-content">
+        <h3>Germany</h3>
+        <div>
+          <p>Population: <span>83,240,525</span></p>
+          <p>Region: <span>Europe</span></p>
+          <p>Capital: <span>Berlin</span></p>
+        </div>
+      </div>
+    </div>
+    <!-- Add more card items as needed -->
+  </div>
+
+  <script>
+    // Get references to HTML elements
+    const searchInput = document.getElementById('searchInput');
+    const categorySelect = document.getElementById('categorySelect');
+    const cardContainer = document.getElementById('cardContainer');
+    const cards = document.querySelectorAll('.card');
+
+    // Add event listeners
+    searchInput.addEventListener('input', search);
+    categorySelect.addEventListener('change', search);
+
+    // Search function
+    function search() {
+      const searchTerm = searchInput.value.toLowerCase();
+      const selectedCategory = categorySelect.value.toLowerCase();
+
+      cards.forEach(card => {
+        const cardName = card.querySelector('h3').textContent.toLowerCase();
+        const cardRegion = card.getAttribute('data-region').toLowerCase();
+
+        const matchesSearch = cardName.includes(searchTerm);
+        const matchesCategory = selectedCategory === '' || cardRegion === selectedCategory;
+
+        if (matchesSearch && matchesCategory) {
+          card.style.display = 'block';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+  </script>
+</body>
+</html>
